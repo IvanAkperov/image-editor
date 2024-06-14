@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block body %}
+<h1>
+    {% for photo in photos %}
+        <div class="results" style="display: block;">
+            <img src="data:image/jpeg;base64,{{ photo.image_data | b64encode }}" width="250px" height="250px" alt="Обработанная фотография">
+        </div>
+    {% endfor %}
+</h1>
+{% endblock body %}

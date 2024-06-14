@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block body %}
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+<div class="login">
+    <form action="{{ url_for('login') }}" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <h2>Login</h2>
+        <div>
+            {{ form.name }} <i class="ri-user-line"></i>
+            <p>
+            {% for error in form.name.errors %}
+                <span style="color: red">{{ error }}</span>
+            {% endfor %}
+            </p>
+        </div>
+        <br>
+        <div>
+            {{ form.password }} <i class="ri-lock-password-fill"></i>
+            <p>
+            {% for error in form.password.errors %}
+                <span style="color: red">{{ error }}</span>
+            {% endfor %}
+            </p>
+        </div>
+        <br>
+        <div class="button-submit">
+            <button type="submit" class="submit-button" disabled>Submit</button>
+        </div>
+        <script>
+        function checkPasswordLength() {
+            var passwordInput = document.getElementById('password');
+            var submitButton = document.querySelector('.submit-button');
+
+            if (passwordInput.value.length >= 8) {
+                submitButton.disabled = false;
+                submitButton.classList.add('enabled');
+            } else {
+                submitButton.disabled = true;
+                submitButton.classList.remove('enabled');
+            }
+        }
+        </script>
+    </form>
+    <div class="register-link">
+        <a href="{{ url_for('register') }}">Register</a>
+    </div>
+</div>
+{% endblock body %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="centered">
+    <div class="forms">
+        <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+            <label for="photo">Select image to upload</label>
+            <input type="file" id="photo" name="photo" accept="image/*">
+            <label for="radio">Select type</label>
+            <select id="radio" name="value" required>
+                <option value="black-white" selected>Черно-белое</option>
+                <option value="blur">Блюр</option>
+                <option value="left">Налево</option>
+                <option value="right">Направо</option>
+                <option value="rotate">Развернутое</option>
+                <option value="sketch">Скетч</option>
+            </select>
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
