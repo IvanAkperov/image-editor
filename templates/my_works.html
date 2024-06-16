@@ -1,10 +1,40 @@
 {% extends 'base.html' %}
 {% block body %}
 <h1>
-    {% for photo in photos %}
-        <div class="results" style="display: block;">
-            <img src="data:image/jpeg;base64,{{ photo.image_data | b64encode }}" width="250px" height="250px" alt="Обработанная фотография">
+    {% if photos.items | length == 0 %}
+    <div class="no-work" style="width: auto; height: 120px; background-color: black; color: white;">
+        <h2>You haven't created any photo. Go to <a style="text-decoration: none; color: coral;" href="{{ url_for('create') }}">page</a></h2>
+    </div>
+    {% else %}
+        {% for photo in photos %}
+            <form action="{{url_for('delete_photo', photo_id=photo.id)}}" method="post">
+                <div class="results">
+                    <img src="data:image/jpeg;base64,{{ photo.image_data | b64encode }}" width="200px" height="200px" alt="Обработанная фотография">
+                    <br>
+                    <button type="submit">remove</button>
+                </div>
+            </form>
+        {% endfor %}
+        <div class="pagination">
+            {% if photos.has_prev %}
+            <a href="{{ url_for('my_works', page=photos.prev_num) }}">Previous</a>
+            {% endif %}
+            {% for page_num in photos.iter_pages() %}
+                {% if page_num %}
+                    {% if page_num != photos.page %}
+                        <a href="{{ url_for('my_works', page=page_num) }}">{{ page_num }}</a>
+                    {% else %}
+                        <strong>{{ page_num }}</strong>
+                    {% endif %}
+                {% else %}
+                    <span class="ellipsis">…</span>
+                {% endif %}
+            {% endfor %}
+            {% if photos.has_next %}
+            <a href="{{ url_for('my_works', page=photos.next_num) }}">Next</a>
+            {% endif %}
         </div>
-    {% endfor %}
+    {% endif %}
+
 </h1>
 {% endblock body %}
